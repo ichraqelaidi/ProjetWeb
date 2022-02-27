@@ -3,7 +3,6 @@ import { BiQrScan } from 'react-icons/bi';
 import QRCode from "react-qr-code";
 
 export default class RessourceQrCode extends Component {
-    
     render() {
         return (
         <div className="container card mb-3">
@@ -19,10 +18,7 @@ export default class RessourceQrCode extends Component {
             <div className="card-body">
                 <p className="card-text">{this.props.ressource.descriptionRes}</p>
             </div>
-            
-            <div className="card-footer text-muted">
-            © COPYRIGHT 2021 - TOUS DROITS RÉSERVÉS
-            </div>
+            <div className="card-footer text-muted"> © COPYRIGHT 2021 - TOUS DROITS RÉSERVÉS </div>
         </div>
         )
     }

@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 export default function Home(props) {
+    
     return (
         <div>
-                <Header/>
+            <Header/>
             <div className='container'>
-            <h1>presenter l appli a faire!!!</h1>
-        </div>
+                <h1>presenter l appli a faire!!!</h1>
+            </div>
         </div>
     )   
 }

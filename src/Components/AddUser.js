@@ -1,14 +1,16 @@
-import React ,{useState} from 'react'
+import React ,{ useState } from 'react'
 import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 export default function AddUser(props) {
+
     const [identifiant, setidentifiant] = useState();
     const [nom, setnom] = useState();
     const [prenom, setprenom] = useState();
     const [email, setemail] = useState();
     const [password, setPassword] = useState("");
     const [confirm_password, setConfirm_password] = useState("");
+
     const handleSubmit = (values) => {
         values.preventDefault();
         const user = {
@@ -68,7 +70,7 @@ export default function AddUser(props) {
                                             )}
                                 required
                                 />
-                                  <div className="invalid-feedback">Le mot de passe doit contenir au moins 6 caractères!</div>
+                                <div className="invalid-feedback">Le mot de passe doit contenir au moins 6 caractères!</div>
                         </div>
                         <div className="form-group">
                             <input 
@@ -95,11 +97,9 @@ export default function AddUser(props) {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" onClick={props.handleClose}>
-                        Fermer
-                </Button>
+                    <Button variant="dark" onClick={props.handleClose}> Fermer </Button>
                     <div className="form-group">
-                        <button className="btn btn-dark" type="submit" >Ajouter</button>
+                        <button className="btn btn-dark" type="submit" > Ajouter </button>
                     </div>
                 </Modal.Footer>
                 </form>

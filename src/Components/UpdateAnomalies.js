@@ -11,25 +11,28 @@ import { AiFillAlert } from 'react-icons/ai';
 import { GrUpdate } from 'react-icons/gr';
 
 export default function UpdateAnomalies(props) {
+
     const [updatedata, setupdatedata] = useState(true);
     const [ressource, setressource] = useState();
     const [listeAnomalie, setlisteAnomalie] = useState([])
+
     useEffect(() => {
         {props.id &&
         axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/ressource/${props.id}`)
-                    .then((res) => {
-                        console.log(res.data)
-                        setressource(res.data);
+            .then((res) => {
+                console.log(res.data)
+                setressource(res.data);
             });
         }
         {props.id &&
             axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/listeAnomalieParRessource/${props.id}`)
-                    .then((res) => {
-                        console.log(res.data)
-                        setlisteAnomalie(res.data);
+                .then((res) => {
+                    console.log(res.data)
+                    setlisteAnomalie(res.data);
             });
         }
     }, [props.id,updatedata]);
+
     const updateAnomalie = (anomalie,etat) =>{
         setupdatedata(!(updatedata));
         let anomalieupdate={};
@@ -52,70 +55,63 @@ export default function UpdateAnomalies(props) {
             anomalieupdate={};
             });
     }
-        return (
-            <Modal show={props.rowEventsUpdateAnomalie} onHide={props.handleClose} >
-                <Modal.Header closeButton>
-                    <Modal.Title>Modifier l'état des anomalies de la ressource {ressource&&ressource.nomRessource}</Modal.Title>
-                </Modal.Header>
-                <form >
+    return (
+        <Modal show={props.rowEventsUpdateAnomalie} onHide={props.handleClose} >
+            <Modal.Header closeButton>
+                <Modal.Title>Modifier l'état des anomalies de la ressource {ressource&&ressource.nomRessource}</Modal.Title>
+            </Modal.Header>
+            <form >
                 <Modal.Body>
-                <div> 
-                <table className="table table-hover" >
-                    <thead>
-                        <tr>
-                            <th scope="col"><GiSandsOfTime/></th>
-                            <th scope="col">Anomalie</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Etat</th>
-                            <th scope="col"><AiOutlineFieldNumber/><AiFillAlert/></th>
-                            <th scope="col"><GrUpdate/></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {listeAnomalie.length > 0
-                                        ? listeAnomalie.map((anomalie) => {
-                                            
-                        return(
+                    <div> 
+                    <table className="table table-hover" >
+                        <thead>
                             <tr>
-                                <td>
-                                    {anomalie.etat==='present'&& <TiDeleteOutline color='red'/>}
-                                    {anomalie.etat==='En cours de traitement'&& <BiTimeFive color='orange'/>}
-                                    {anomalie.etat==='terminé'&& <FaCheckCircle color='green'/>}
-                                </td>
-                                <td><AnomalieInfo IdAnomalie={anomalie.anomalie} type={'nom'}/></td>
-                                <td><AnomalieInfo IdAnomalie={anomalie.anomalie} type={'description'}/></td>
-                                <td>{anomalie.etat}</td>
-                                <td>{anomalie.nombreSignalement}</td>
-                                <td>
-                                    {anomalie.etat==='present'&&   
-                                        <><a href='#'onClick={()=>updateAnomalie(anomalie,'En cours de traitement')}><BiTimeFive color='orange'/></a>
-                                            <a href='#'onClick={()=>updateAnomalie(anomalie,'terminé')}> <FaCheckCircle color='green'/></a>
-                                        </>}
-                                    {anomalie.etat==='En cours de traitement'&&   
-                                        <><a href='#'><TiDeleteOutline color='red'onClick={()=>updateAnomalie(anomalie,'present')}/></a>
-                                            <a href='#'onClick={()=>updateAnomalie(anomalie,'terminé')}> <FaCheckCircle color='green'/></a>
-                                        </>}
-                                    {anomalie.etat==='terminé'&&   
-                                        <><a href='#'onClick={()=>updateAnomalie(anomalie,'En cours de traitement')}><BiTimeFive color='orange'/></a>
-                                        <a href='#'><TiDeleteOutline color='red'onClick={()=>updateAnomalie(anomalie,'present')}/></a>
-                                        </>}
-                                </td>
-                            </tr>)})
-                            :<tr><td colSpan={6}>Vous avez pas d'anomalie</td></tr>}
-                        
-                    </tbody>
-                </table>
-                </div>
+                                <th scope="col"><GiSandsOfTime/></th>
+                                <th scope="col">Anomalie</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Etat</th>
+                                <th scope="col"><AiOutlineFieldNumber/><AiFillAlert/></th>
+                                <th scope="col"><GrUpdate/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listeAnomalie.length > 0
+                                ? listeAnomalie.map((anomalie) => {         
+                            return(
+                                <tr>
+                                    <td>
+                                        {anomalie.etat==='present'&& <TiDeleteOutline color='red'/>}
+                                        {anomalie.etat==='En cours de traitement'&& <BiTimeFive color='orange'/>}
+                                        {anomalie.etat==='terminé'&& <FaCheckCircle color='green'/>}
+                                    </td>
+                                    <td><AnomalieInfo IdAnomalie={anomalie.anomalie} type={'nom'}/></td>
+                                    <td><AnomalieInfo IdAnomalie={anomalie.anomalie} type={'description'}/></td>
+                                    <td>{anomalie.etat}</td>
+                                    <td>{anomalie.nombreSignalement}</td>
+                                    <td>
+                                        {anomalie.etat==='present'&&   
+                                            <><a href='#'onClick={()=>updateAnomalie(anomalie,'En cours de traitement')}><BiTimeFive color='orange'/></a>
+                                                <a href='#'onClick={()=>updateAnomalie(anomalie,'terminé')}> <FaCheckCircle color='green'/></a>
+                                            </>}
+                                        {anomalie.etat==='En cours de traitement'&&   
+                                            <><a href='#'><TiDeleteOutline color='red'onClick={()=>updateAnomalie(anomalie,'present')}/></a>
+                                                <a href='#'onClick={()=>updateAnomalie(anomalie,'terminé')}> <FaCheckCircle color='green'/></a>
+                                            </>}
+                                        {anomalie.etat==='terminé'&&   
+                                            <><a href='#'onClick={()=>updateAnomalie(anomalie,'En cours de traitement')}><BiTimeFive color='orange'/></a>
+                                            <a href='#'><TiDeleteOutline color='red'onClick={()=>updateAnomalie(anomalie,'present')}/></a>
+                                            </>}
+                                    </td>
+                                </tr>)})
+                                :<tr><td colSpan={6}>Vous avez pas d'anomalie</td></tr>}
+                        </tbody>
+                    </table>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" onClick={props.handleClose}>
-                        Annuler
-                </Button>
-                    
+                    <Button variant="dark" onClick={props.handleClose}> Annuler </Button>
                 </Modal.Footer>
-                </form>
+            </form>
         </Modal>
-        )
+    )
 }
-
-

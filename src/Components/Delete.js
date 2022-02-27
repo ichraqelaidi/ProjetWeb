@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import axios from'axios'
 
 export default function Delete(props) {
+
     const [localisation, setlocalisation] = useState({});
     const [service, setservice] = useState({});
     const [ressource, setressource] = useState({});
@@ -10,45 +11,44 @@ export default function Delete(props) {
     const deleteObject = () =>{
         
         {props.id && props.type === 'localisation' && 
-        axios.delete(`${process.env.REACT_APP_API_URL}/api/ressources/localisation/${props.id}`)
-        .then((res) => {
-            props.handleClose();
-        });
+            axios.delete(`${process.env.REACT_APP_API_URL}/api/ressources/localisation/${props.id}`)
+            .then((res) => {
+                props.handleClose();
+            });
         }
         {props.id && props.type === 'service' && 
-        axios.delete(`${process.env.REACT_APP_API_URL}/api/ressources/service/${props.id}`)
-        .then((res) => {
-            props.handleClose();
-        });
+            axios.delete(`${process.env.REACT_APP_API_URL}/api/ressources/service/${props.id}`)
+            .then((res) => {
+                props.handleClose();
+            });
         }
         {props.id && props.type === 'ressource' && 
-        axios.delete(`${process.env.REACT_APP_API_URL}/api/ressources/ressource/${props.id}`)
-        .then((res) => {
-            props.handleClose();
-        });
+            axios.delete(`${process.env.REACT_APP_API_URL}/api/ressources/ressource/${props.id}`)
+            .then((res) => {
+                props.handleClose();
+            });
         }
     }
     useEffect(() => {
         console.log(props.id)
         {props.id && props.type === 'localisation' && 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/localisation/${props.id}`)
-        .then((res) => {
-            setlocalisation(res.data);
-        });
+            axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/localisation/${props.id}`)
+            .then((res) => {
+                setlocalisation(res.data);
+            });
         }
         {props.id && props.type === 'service' && 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/service/${props.id}`)
-        .then((res) => {
-            setservice(res.data);
-        });
+            axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/service/${props.id}`)
+            .then((res) => {
+                setservice(res.data);
+            });
         }
         {props.id && props.type === 'ressource' && 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/ressource/${props.id}`)
-        .then((res) => {
-            setressource(res.data);
-        });
+            axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/ressource/${props.id}`)
+            .then((res) => {
+                setressource(res.data);
+            });
         }
-
     }, [props.type,props.id])
      
     return (
@@ -62,26 +62,23 @@ export default function Delete(props) {
                     </Modal.Title>
             </Modal.Header>
             <form onSubmit={deleteObject}>
-            <Modal.Body>
-            <div> 
-                <p>Voulez vous vraiment supprimer <strong>'
-                    {props.type === 'localisation' && localisation.libelle}
-                    {props.type === 'service' && service.nomServ}
-                    {props.type === 'ressource' && ressource.nomRessource}
-                    '</strong> ?</p>
-            </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="dark" onClick={props.handleClose}>
-                    Annuler
-            </Button>
-                <div className="form-group">
-                    <button className="btn btn-dark" type="submit" >Supprimer</button>
-                </div>
-            </Modal.Footer>
+                <Modal.Body>
+                    <div> 
+                        <p>Voulez vous vraiment supprimer <strong>'
+                            {props.type === 'localisation' && localisation.libelle}
+                            {props.type === 'service' && service.nomServ}
+                            {props.type === 'ressource' && ressource.nomRessource}
+                            '</strong> ?
+                        </p>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="dark" onClick={props.handleClose}> Annuler </Button>
+                    <div className="form-group">
+                        <button className="btn btn-dark" type="submit" >Supprimer</button>
+                    </div>
+                </Modal.Footer>
             </form>
     </Modal>
     )
 }
-
-

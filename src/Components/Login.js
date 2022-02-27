@@ -7,20 +7,18 @@ import useToken from '../useToken';
 import Header from './Header';
 
 async function loginUser(credentials) {
-    
     return axios({
         method: "POST",
         url: `${process.env.REACT_APP_API_URL}/api/users/login/`,
         data: JSON.stringify(credentials),
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json'}
     }).then(res => {
         return (res.data.token)
     });
 }
 
 const Login = () => {
+
     const navigate = useNavigate();
     const [userRole, setUserRole ] = useState('guest');
     const { token, setToken } = useToken();
@@ -33,9 +31,9 @@ const Login = () => {
         const token = await loginUser({
             username: username,
             password: password
-          });
-          setToken(token);
-          axios({
+        });
+        setToken(token);
+        axios({
             method: "GET",
             url: `${process.env.REACT_APP_API_URL}/api/users/user/`,
             headers: {
@@ -50,38 +48,38 @@ const Login = () => {
             {userRole==='admin'? navigate("/HomeAdmin"): navigate("/HomeRespo")}
         });
     };
+
     useEffect(() => {
         console.log(userRole)
-    if (token || localStorage.getItem('token')) {
-        {userRole === 'admin' && navigate("/HomeAdmin")}
-        {userRole === 'responsable' && navigate("/HomeRespo")}
-    }
-      }, [localStorage.getItem('token')]);
+        if (token || localStorage.getItem('token')) {
+            {userRole === 'admin' && navigate("/HomeAdmin")}
+            {userRole === 'responsable' && navigate("/HomeRespo")}
+        }
+     }, [localStorage.getItem('token')]);
+
     return (
         <div>
-                <Header/>
+            <Header/>
             <div className='container'>
-                  <h1 style={{textAlign:"center"}}><BsFileEarmarkLock/> AUTHENTIFIEZ-VOUS</h1>
-            <div style={{width:'40%'}}  className="container alert alert-dismissible alert-secondary">
-            <form onSubmit={handleSubmitLogin}>
-            <div className="form-group">
-                <label for="id" className="form-label mt-2">Identifiant :</label>
-                <input type="text" className="form-control" id="id" placeholder="ABC123" onChange={e => setusername(e.target.value)}required/>
+                <h1 style={{textAlign:"center"}}><BsFileEarmarkLock/> AUTHENTIFIEZ-VOUS</h1>
+                <div style={{width:'40%'}}  className="container alert alert-dismissible alert-secondary">
+                    <form onSubmit={handleSubmitLogin}>
+                        <div className="form-group">
+                            <label for="id" className="form-label mt-2">Identifiant :</label>
+                            <input type="text" className="form-control" id="id" placeholder="ABC123" onChange={e => setusername(e.target.value)}required/>
+                        </div>
+                        <div className="form-group">
+                            <label for="password" className="form-label mt-2">Mot de passe :</label>
+                            <input type="password" className="form-control" id="password" placeholder="votre mot de passe" onChange={e => setpassword(e.target.value)}required/>
+                        </div>
+                        <button className="btn btn-dark" type="submit" >Se Connecter</button>
+                    </form>
+                </div>      
             </div>
-            <div className="form-group">
-                <label for="password" className="form-label mt-2">Mot de passe :</label>
-                <input type="password" className="form-control" id="password" placeholder="votre mot de passe" onChange={e => setpassword(e.target.value)}required/>
-            </div>
-            <button className="btn btn-dark" type="submit" >Se Connecter</button>
-        </form>
-            </div>      
-    </div>
-    </div>
+        </div>
     )
 }
-
 Login.propTypes = {
     setToken: PropTypes.func.isRequired
 }
-
 export default Login;

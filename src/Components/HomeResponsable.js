@@ -1,5 +1,5 @@
 
-import React , {useState, useRef, useEffect} from 'react'
+import React , { useState, useRef, useEffect } from 'react'
 import { MdDeleteForever } from 'react-icons/md';
 import Search from './Search';
 import { BiListPlus } from 'react-icons/bi';
@@ -23,19 +23,17 @@ export default function Homeressourcensable(props){
     const [showAddRessource, setshowAddRessource] = useState(false);
     const handleCloseAddRessource = () => setshowAddRessource(false);
     const rowEventsAddRessource = () => { setshowAddRessource(true); }
-
     const [showDeleteRessource, setshowDeleteRessource] = useState(false);
     const handleCloseDeleteRessource = () => {
         setidRessource();
         setshowDeleteRessource(false)};
     const rowEventsDelete = (e) => { 
         setidRessource(e);
-        setshowDeleteRessource(true); }
-
+        setshowDeleteRessource(true);
+    }
     const [showUpdateRessource, setshowUpdateRessource] = useState(false);
     const handleCloseUpdateRessource = () => setshowUpdateRessource(false);
     const rowEventsUpdate = () => { setshowUpdateRessource(true); }
-
     const [showUpdateAnomalie, setshowUpdateAnomalie] = useState(false);
     const handleCloseUpdateAnamalie = () => {
         setidRessourceupdate();
@@ -43,7 +41,6 @@ export default function Homeressourcensable(props){
     const rowEventsUpdateAnomalie = (e) => {
         setidRessourceupdate(e); 
         setshowUpdateAnomalie(true); }
-
     const [searchField, setsearchField] = useState('');
     const [ListeRessource, setListeRessource] = useState([]);
     const filtreedRessources=ListeRessource.filter(ressource=>(
@@ -51,20 +48,19 @@ export default function Homeressourcensable(props){
             ||
         ressource.descriptionRes.toLowerCase().includes(searchField.toLowerCase())
     ));
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/responsable/ressources/${localStorage.getItem('id')}`)
-                    .then((res) => {
-                        setListeRessource(res.data);
+                .then((res) => {
+                setListeRessource(res.data);
             });
-        
         {localStorage.getItem('token')? 
         (localStorage.getItem('role') === 'admin'&& navigate("/HomeAdmin"))
         :navigate("/")}
-          
     }, [localStorage.getItem('token'),handleCloseAddRessource])
-        return (
-            <div>
-                <Header/>
+    return (
+        <div>
+            <Header/>
             <div className='container'>
                 <h1 style={{textAlign:"center"}}> <BsListStars/> Mes ressources :</h1>
                 <Search placeholder='Chercher par Nom / Description de la ressource' handleChange={(e)=>setsearchField(e.target.value)}/>
@@ -82,30 +78,26 @@ export default function Homeressourcensable(props){
                         </tr>
                     </thead>
                     <tbody>
-                    {filtreedRessources.length > 0
-                                        ? filtreedRessources.map((ressource) => {
-                                            
-                        return(<tr className="table-info">
-                            <th scope="row">
-                                <PrintComponent ressource={ressource}/>
-                            </th>
-                            <td>{ressource.nomRessource}</td>
-                            <td>{ressource.descriptionRes}</td>
-                            <td><LocalisationRessource idLocalisationA={ressource.localisation}/></td>
-                            <td ><a href='#' className="badge bg-info rounded-pill" onClick={() => rowEventsUpdateAnomalie(ressource.id)} ><NbreAnomalie idRessourceA={ressource.id}/></a></td>
-                            <td style={{color:"red"}} onClick={() => rowEventsDelete(ressource.id)} ><MdDeleteForever/></td>
-                        </tr>);
-                        })
-                        : (<tr><td colSpan={6} className="text-center">Pas de ressources !</td></tr>)
-                    }
-                        
+                        {filtreedRessources.length > 0
+                            ? filtreedRessources.map((ressource) => {  
+                            return(<tr className="table-info">
+                                <th scope="row"><PrintComponent ressource={ressource}/></th>
+                                <td>{ressource.nomRessource}</td>
+                                <td>{ressource.descriptionRes}</td>
+                                <td><LocalisationRessource idLocalisationA={ressource.localisation}/></td>
+                                <td><a href='#' className="badge bg-info rounded-pill" onClick={() => rowEventsUpdateAnomalie(ressource.id)} ><NbreAnomalie idRessourceA={ressource.id}/></a></td>
+                                <td style={{color:"red"}} onClick={() => rowEventsDelete(ressource.id)} ><MdDeleteForever/></td>
+                            </tr>);
+                            })
+                            : (<tr><td colSpan={6} className="text-center">Pas de ressources !</td></tr>)
+                        }
                     </tbody>
-                    </table>
-                    <AddRessources ref={componentRef} rowEventsAddRessource={showAddRessource} handleClose={handleCloseAddRessource} />
-                    <Delete rowEventsDelete={showDeleteRessource} handleClose={handleCloseDeleteRessource} type='ressource'id={idRessource}/>
-                    <UpdateRessource rowEventsUpdate={showUpdateRessource} handleClose={handleCloseUpdateRessource}/>
-                    <UpdateAnomalies rowEventsUpdateAnomalie={showUpdateAnomalie} handleClose={handleCloseUpdateAnamalie} id={idRessourceupdate}/>
+                </table>
+                <AddRessources ref={componentRef} rowEventsAddRessource={showAddRessource} handleClose={handleCloseAddRessource} />
+                <Delete rowEventsDelete={showDeleteRessource} handleClose={handleCloseDeleteRessource} type='ressource'id={idRessource}/>
+                <UpdateRessource rowEventsUpdate={showUpdateRessource} handleClose={handleCloseUpdateRessource}/>
+                <UpdateAnomalies rowEventsUpdateAnomalie={showUpdateAnomalie} handleClose={handleCloseUpdateAnamalie} id={idRessourceupdate}/>
             </div>
-            </div>
-        )
+        </div>
+    )
 }

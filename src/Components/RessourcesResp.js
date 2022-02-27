@@ -5,7 +5,9 @@ import Accordion from 'react-bootstrap/Accordion'
 import axios from 'axios';
 
 export default function RessourcesResp(props) {
+
     const [listRessource, setlistRessource] = useState([])
+
     useEffect(() => {
         {props.idRrespo &&
         axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/responsable/ressources/${props.idRrespo}`)
@@ -14,38 +16,34 @@ export default function RessourcesResp(props) {
             setlistRessource(res.data);
         });}
     }, [props.idRrespo])
-        return (
-            <Modal show={props.rowEventslist} onHide={props.handleClose}  >
-                <Modal.Header closeButton>
-                    <Modal.Title>Listes resources</Modal.Title>
-                </Modal.Header>
-                <form >
+    return (
+        <Modal show={props.rowEventslist} onHide={props.handleClose}  >
+            <Modal.Header closeButton>
+                <Modal.Title>Listes resources</Modal.Title>
+            </Modal.Header>
+            <form >
                 <Modal.Body>
                     <div>
-                    <Accordion>
-                    {listRessource.length > 0
-                                        ? listRessource.map((ressource) => {
-                                            
-                        return(
-                        <Accordion.Item eventKey={listRessource.findIndex(item => item.id === ressource.id)}>
-                            <Accordion.Header>{ressource.nomRessource}</Accordion.Header>
-                            <Accordion.Body>{ressource.descriptionRes}</Accordion.Body>
-                        </Accordion.Item>
-                        )}):
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Pas de ressource</Accordion.Header>
-                            <Accordion.Body>Il n'y a pas de ressource.</Accordion.Body>
-                        </Accordion.Item>}
+                        <Accordion>
+                        {listRessource.length > 0
+                            ? listRessource.map((ressource) => {       
+                            return(
+                            <Accordion.Item eventKey={listRessource.findIndex(item => item.id === ressource.id)}>
+                                <Accordion.Header>{ressource.nomRessource}</Accordion.Header>
+                                <Accordion.Body>{ressource.descriptionRes}</Accordion.Body>
+                            </Accordion.Item>
+                            )}):
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>Pas de ressource</Accordion.Header>
+                                <Accordion.Body>Il n'y a pas de ressource.</Accordion.Body>
+                            </Accordion.Item>}
                         </Accordion>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="dark" onClick={props.handleClose}>
-                        Fermer
-                </Button>
-                    
+                    <Button variant="dark" onClick={props.handleClose}> Fermer </Button> 
                 </Modal.Footer>
-                </form>
-        </Modal>
-        )
+            </form>
+    </Modal>
+    )
 }

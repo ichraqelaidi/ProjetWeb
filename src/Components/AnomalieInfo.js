@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import axios
- from 'axios';
+import axios from 'axios';
+
 export default function AnomalieInfo(props) {
+
     const [anomaliInfo, setanomaliInfo] = useState();
+
     useEffect(() => {
         {props.IdAnomalie && 
             axios.get(`${process.env.REACT_APP_API_URL}/api/ressources/anomalie/${props.IdAnomalie}`)
@@ -12,11 +14,11 @@ export default function AnomalieInfo(props) {
             });
         }
     }, [props.IdAnomalie])
+
         return (
             <div>
                 {anomaliInfo &&
-                    (props.type==='nom' ? anomaliInfo.nomAnomalie
-                    : anomaliInfo.descriptionAnomalie)
+                    (props.type==='nom' ? anomaliInfo.nomAnomalie : anomaliInfo.descriptionAnomalie)
                 }
             </div>
         )
